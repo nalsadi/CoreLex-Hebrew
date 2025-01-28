@@ -86,6 +86,6 @@ if __name__ == "__main__":
     corpus = compile_corpus(root_directory)
     num_words, top_words = get_words_occupying_80_percent(corpus)
     show_stats(corpus, top_words)
-    create_visualizations(corpus, top_words)
+    #create_visualizations(corpus, top_words)
     save_words_to_csv(top_words)
     print("\nVisualizations have been saved in the 'visualizations' directory.")
