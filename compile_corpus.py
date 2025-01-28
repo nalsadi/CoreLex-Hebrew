@@ -5,6 +5,28 @@ import seaborn as sns
 import numpy as np
 from wordcloud import WordCloud
 import pandas as pd
+import unicodedata
+import re
+
+def remove_nikud(text):
+    """Remove Hebrew diacritical marks (nikud) from text."""
+    return ''.join(char for char in text if not unicodedata.combining(char))
+
+def clean_text(text):
+    """Clean and normalize Hebrew text."""
+    # Remove nikud (vowel points)
+    text = remove_nikud(text)
+    
+    # Replace Hebrew quotation marks with space
+    text = text.replace('״', ' ').replace('"', ' ').replace('׳', ' ')
+    
+    # Remove punctuation (keeping Hebrew characters)
+    text = re.sub(r'[^\u0590-\u05FF\s]', ' ', text)
+    
+    # Remove multiple spaces and strip
+    text = re.sub(r'\s+', ' ', text).strip()
+    
+    return text
 
 def compile_corpus(root_directory):
     corpus = ""
@@ -12,8 +34,10 @@ def compile_corpus(root_directory):
         for filename in files:
             if filename.endswith(".txt"):
                 with open(os.path.join(subdir, filename), 'r', encoding='utf-8') as file:
-                    corpus += file.read() + " "
-    return corpus
+                    text = file.read()
+                    # Clean text before adding to corpus
+                    corpus += clean_text(text) + " "
+    return corpus.strip()
 
 def get_words_occupying_80_percent(corpus):
     words = corpus.split()
@@ -77,7 +101,7 @@ def show_stats(corpus, top_words):
 def save_words_to_csv(top_words, output_dir="visualizations"):
     os.makedirs(output_dir, exist_ok=True)
     df = pd.DataFrame(top_words, columns=['hebrew', 'count'])
-    csv_path = os.path.join(output_dir, 'top_80_percent_words.csv')
+    csv_path = os.path.join('data', 'top_80_percent_words.csv')
     df.to_csv(csv_path, index=False, encoding='utf-8-sig')  # utf-8-sig for Hebrew support
     print(f"\nTop words have been saved to: {csv_path}")
 

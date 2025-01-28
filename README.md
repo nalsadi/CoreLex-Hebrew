@@ -19,7 +19,7 @@ A Python-based tool for analyzing Hebrew text corpora with visualization capabil
 ## Installation
 
 ```bash
-pip install matplotlib seaborn wordcloud numpy
+pip install matplotlib seaborn numpy
 ```
 
 ## Usage
@@ -40,11 +40,11 @@ The script will generate:
 ```
 Corpus Statistics:
 ================
-Total words: 10,000
-Unique words: 2,500
-Vocabulary richness (unique/total): 25.00%
-Number of words occupying 80% of the corpus: 500
-Percentage of unique words needed for 80% coverage: 20.00%
+Total words: 685,167
+Unique words: 60,624
+Vocabulary richness (unique/total): 8.85%
+Number of words occupying 80% of the corpus: 8,330
+Percentage of unique words needed for 80% coverage: 13.74%
 ```
 
 ### Generated Visualizations
